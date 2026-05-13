@@ -321,7 +321,7 @@ Beyond code, we evaluate:
 
 ## ❓ Questions?
 
-- **Email:** hr@cadmech.com
+- **Email:** mktg@cadmech.co.in / akash.virdhe@cadmech.co.in
 - **Response time:** Within 24 hours on business days
 - For Tier 3's ambiguous requirements: **make your best judgment and document your reasoning.** There is no single right answer.
 
