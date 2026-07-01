@@ -10,6 +10,7 @@
 const express = require("express");
 const router = express.Router();
 const equipmentModel = require("../models/equipmentModel");
+const { validateEquipment, validateId } = require("../middleware/validation");
 
 // ─── GET /api/equipment ────────────────────────────────────
 // List all equipment
@@ -40,7 +41,7 @@ router.get("/equipment", async (req, res) => {
 
 // // ─── GET /api/equipment/:id ────────────────────────────────
 // // Get a single equipment item by ID
-router.get("/equipment/:id", async (req, res) => {
+router.get("/equipment/:id", validateId, async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -70,7 +71,7 @@ router.get("/equipment/:id", async (req, res) => {
 // Create new equipment
 // Required fields: name, type, status
 // Optional fields: location, serial_number, description, installed_date
-router.post("/equipment", async (req, res) => {
+router.post("/equipment", validateEquipment, async (req, res) => {
   try {
     const {
       name,
@@ -99,6 +100,13 @@ router.post("/equipment", async (req, res) => {
     });
   } catch (error) {
     console.error("Error creating equipment:", error);
+
+    if(error.code === "ER_DUP_ENTRY") {
+      return res.status(409).json({
+        success: false,
+        message: "Serial number already exists.",
+      });
+    }
     res.status(500).json({
       success: false,
       error: error.message,
@@ -108,7 +116,7 @@ router.post("/equipment", async (req, res) => {
 
 // ─── PUT /api/equipment/:id ────────────────────────────────
 // Update an existing equipment item
-router.put("/equipment/:id", async (req, res) => {
+router.put("/equipment/:id", validateId, validateEquipment, async (req, res) => {
   try {
     const id = req.params.id;
 
@@ -149,6 +157,13 @@ router.put("/equipment/:id", async (req, res) => {
     });
   } catch (error) {
     console.error("Error updating equipment:", error);
+
+    if (error.code === "ER_DUP_ENTRY") {
+      return res.status(409).json({
+        success: false,
+        message: "Serial number already exists.",
+      });
+    }
     res.status(500).json({
       success: false,
       error: error.message,
@@ -158,7 +173,7 @@ router.put("/equipment/:id", async (req, res) => {
 
  // ─── DELETE /api/equipment/:id ─────────────────────────────
  // Delete an equipment item
-router.delete('/equipment/:id', async (req, res) => {
+router.delete('/equipment/:id', validateId, async (req, res) => {
   try {
     const id = req.params.id;
 
