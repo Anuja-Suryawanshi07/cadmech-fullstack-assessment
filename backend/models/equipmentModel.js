@@ -88,7 +88,7 @@ const updateEquipment = async (id, equipment) => {
             location = ?,
             serial_number = ?,
             description = ?,
-            installed_date = ?,
+            installed_date = ?
             WHERE id = ?`;
 
   await db.execute(query, [
