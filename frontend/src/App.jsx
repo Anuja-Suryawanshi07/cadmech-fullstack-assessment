@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import './App.css'
+import Layout from "./components/Layout/Layout";
+import Dashboard from "./pages/Dashboard";
 
 /**
  * SmartLab Equipment Manager — CADMech Assessment
@@ -28,11 +28,9 @@ import './App.css'
 // TODO: Update this to your deployed backend URL before deploying frontend
 function App() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
-      <h1 className="text-5xl font-bold text-blue-600">
-        SmartLab Equipment Manager
-      </h1>
-    </div>
+    <Layout>
+      <Dashboard />
+    </Layout>  
   );
 }
 
