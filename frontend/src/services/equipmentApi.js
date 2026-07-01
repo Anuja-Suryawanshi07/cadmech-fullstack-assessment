@@ -7,7 +7,7 @@ const api = axios.create({
 // GET all equipment
 export const getEquipment = (param) => {
     return api.get("/equipment", {
-        params,
+        param,
     });
 };
 

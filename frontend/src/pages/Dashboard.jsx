@@ -1,4 +1,5 @@
 import StatsCards from "../components/Dashboard/StatsCards";
+import EquipmentTable from "../components/Equipment/EquipmentTable";
 
 function Dashboard() {
     return (
@@ -11,7 +12,8 @@ function Dashboard() {
             </p>
 
             <StatsCards />
-            
+            <EquipmentTable />
+
         </div>
     );
 }
