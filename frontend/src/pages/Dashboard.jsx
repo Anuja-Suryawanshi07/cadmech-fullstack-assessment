@@ -2,18 +2,23 @@ import { useEffect, useState } from "react";
 import StatsCards from "../components/Dashboard/StatsCards";
 import EquipmentFilters from "../components/Search/EquipmentFilters";
 import EquipmentTable from "../components/Equipment/EquipmentTable";
+import AddEquipmentModal from "../components/Equipment/AddEquipmentModal";
 import { getEquipment } from "../services/equipmentApi";
+import { createEquipment } from "../services/equipmentApi";
 
 function Dashboard() {
     const [equipment, setEquipment] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const [filters, setFilters] = useState({
         search: "",
         type: "",
         status: "",
     });
+
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         fetchEquipment(filters);
@@ -44,6 +49,20 @@ function Dashboard() {
             [name]: value,
         }));
     };
+
+    const handleSaveEquipment = async (equipmentData) => {
+        try {
+            const response = await createEquipment(equipmentData);
+
+            console.log(response.data);
+
+            setIsModalOpen(false);
+
+             fetchEquipment(filters);
+        } catch (error) {
+            console.error("Failed to create equipment", error);
+        }
+    };
     return (
         <div>
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
@@ -53,6 +72,12 @@ function Dashboard() {
                 Welcome to the SmartLab Equipment Manager.
             </p>
 
+            <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-blue-600 text-white px-4 py-2 rounded mt-4"
+            >
+                + Add Equipment
+            </button>
             <StatsCards />
 
             <EquipmentFilters 
@@ -63,8 +88,14 @@ function Dashboard() {
                 equipment={equipment}
                 loading={loading}
                 error={error}
+                refreshKey={refreshKey}
             />
 
+            <AddEquipmentModal
+                isOpen={isModalOpen}
+                onClose={() =>setIsModalOpen(false)}
+                onSave={handleSaveEquipment}
+            />    
         </div>
     );
 }
