@@ -1,28 +1,6 @@
-import { useEffect, useState } from "react";
-import { getEquipment } from "../../services/equipmentApi";
 
-function EquipmentTable() {
-    const [equipment, setEquipment] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-        fetchEquipment();
-    }, []);
-
-    const fetchEquipment = async () => {
-        try {
-            const response = await getEquipment();
-
-            setEquipment(response.data.data);
-        } catch (error) {
-            console.error("Failed to fetch equipment:", error);
-            setError("Unable to load equipment");
-        } finally {
-            setLoading(false);
-        }
-    };
-
+function EquipmentTable({ equipment, loading, error }) {
+    
     if (loading) {
         return (
             <p className="mt-6">

@@ -1,7 +1,49 @@
+import { useEffect, useState } from "react";
 import StatsCards from "../components/Dashboard/StatsCards";
+import EquipmentFilters from "../components/Search/EquipmentFilters";
 import EquipmentTable from "../components/Equipment/EquipmentTable";
+import { getEquipment } from "../services/equipmentApi";
 
 function Dashboard() {
+    const [equipment, setEquipment] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    const [filters, setFilters] = useState({
+        search: "",
+        type: "",
+        status: "",
+    });
+
+    useEffect(() => {
+        fetchEquipment(filters);
+    },[filters]);
+
+    const fetchEquipment = async (filters = {}) => {
+        try {
+            setLoading(true);
+
+            const response = await getEquipment(filters);
+
+            setEquipment(response.data.data);
+
+            setError("");
+        } catch (error) {
+            console.error("Failed to fetch equipment:", error);
+            setError("Unable to load equipment");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleFilterChange = (event) => {
+        const { name, value } = event.target;
+
+        setFilters((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
     return (
         <div>
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
@@ -12,7 +54,16 @@ function Dashboard() {
             </p>
 
             <StatsCards />
-            <EquipmentTable />
+
+            <EquipmentFilters 
+                filters={filters}
+                onFilterChange={handleFilterChange}
+            />    
+            <EquipmentTable 
+                equipment={equipment}
+                loading={loading}
+                error={error}
+            />
 
         </div>
     );

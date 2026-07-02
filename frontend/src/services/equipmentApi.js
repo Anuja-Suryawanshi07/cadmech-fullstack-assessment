@@ -5,9 +5,9 @@ const api = axios.create({
 });
 
 // GET all equipment
-export const getEquipment = (param) => {
+export const getEquipment = (params = {}) => {
     return api.get("/equipment", {
-        param,
+        params,
     });
 };
 
