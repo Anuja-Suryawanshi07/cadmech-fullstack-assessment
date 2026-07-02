@@ -57,10 +57,10 @@ const createEquipment = async (equipment) => {
     name,
     type,
     status,
-    location,
-    serial_number,
-    description,
-    installed_date,
+    location || null,
+    serial_number || null,
+    description || null,
+    installed_date || null,
   ]);
 
   return getEquipmentById(result.insertId);
@@ -95,10 +95,10 @@ const updateEquipment = async (id, equipment) => {
     name,
     type,
     status,
-    location,
-    serial_number,
-    description,
-    installed_date,
+    location || null,
+    serial_number || null,
+    description || null,
+    installed_date || null,
     id,
   ]);
 
