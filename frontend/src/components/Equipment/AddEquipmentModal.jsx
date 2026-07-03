@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function AddEquipmentModal({ isOpen, onClose, onSave }) {
+function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
   const [formData, setFormData] = useState({
     name: "",
     type: "",
@@ -12,6 +12,35 @@ function AddEquipmentModal({ isOpen, onClose, onSave }) {
   });
 
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (isEditMode && editItem) {
+      setFormData({
+      id: editItem.id,
+      name: editItem.name || "",
+      type: editItem.type || "",
+      status: editItem.status || "Active",
+      location: editItem.location || "",
+      serial_number: editItem.serial_number || "",
+      installed_date: editItem.installed_date || "",
+      description: editItem.description || "",
+    });
+    }
+  }, [editItem, isEditMode]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData({
+        name: "",
+        type: "",
+        status: "Active",
+        location: "",
+        serial_number: "",
+        installed_date: "",
+        description: "",
+      });
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -37,11 +66,12 @@ function AddEquipmentModal({ isOpen, onClose, onSave }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
-
+    console.log("VALIDATION:", isValid);
     if (!validate()) return;
-
-    onSave(formData);
+    console.log("Submitting formData:", formData);
+    onSave(formData, isEditMode);
   };
+
   return (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
@@ -156,7 +186,7 @@ function AddEquipmentModal({ isOpen, onClose, onSave }) {
 
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded"
+              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
             >
               Save Equipment
             </button>

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { getStats } from "../../services/equipmentApi"
-function StatsCards() {
+function StatsCards({ refreshKey }) {
     const [stats, setStats] = useState(null);
     const [error, setError] = useState("");
 
     useEffect(() => {
         fetchStats();
-    }, []);
+    }, [refreshKey]);
 
     const fetchStats = async () => {
         try {
@@ -18,6 +18,7 @@ function StatsCards() {
             setError("Unable to load statistics");
         }
     };
+    
 
     if (error) {
         return (

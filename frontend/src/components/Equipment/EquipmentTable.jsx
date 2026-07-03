@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function EquipmentTable({ equipment, loading, error, refreshKey }) {
+function EquipmentTable({ equipment, loading, error, refreshKey, onEdit, onDelete }) {
   const getStatusStyle = (status) => {
     switch (status) {
       case "Active":
@@ -35,6 +35,7 @@ function EquipmentTable({ equipment, loading, error, refreshKey }) {
             <th className="p-3 text-left">Location</th>
             <th className="p-3 text-left">Serial Number</th>
             <th className="p-3 text-left">Installed Date</th>
+            <th className="p-3 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -52,6 +53,20 @@ function EquipmentTable({ equipment, loading, error, refreshKey }) {
               <td className="p-3">{item.location}</td>
               <td className="p-3">{item.serial_number}</td>
               <td className="p-3">{item.installed_date}</td>
+              <td className="p-3">
+                <button
+                  onClick={() => onEdit(item)}
+                  className="text-blue-600 hover:underline cursor-pointer"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => onDelete(item.id)}
+                  className="text-red-600 hover:underline"
+                >
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
