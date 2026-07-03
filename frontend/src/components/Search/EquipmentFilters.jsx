@@ -1,20 +1,20 @@
 function EquipmentFilters({ filters, onFilterChange }) {
   return (
-    <div className="mt-8 mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="mt-8 mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <input
         type="text"
         name="search"
         placeholder="Search by equipment name..."
         value={filters.search}
         onChange={onFilterChange}
-        className="border rounded-lg px-4 py-2"
+        className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
       />
 
       <select
         name="type"
         value={filters.type}
         onChange={onFilterChange}
-        className="border rounded-lg px-4 py-2"
+        className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
       >
         <option value="">All Types</option>
         <option value="CNC Machine">CNC Machine</option>
@@ -30,7 +30,7 @@ function EquipmentFilters({ filters, onFilterChange }) {
         name="status"
         value={filters.status}
         onChange={onFilterChange}
-        className="border rounded-lg px-4 py-2"
+        className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
        >
         <option value="">All Status</option>
         <option value="Active">Active</option>

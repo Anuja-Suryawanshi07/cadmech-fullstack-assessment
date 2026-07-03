@@ -73,15 +73,15 @@ function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex justify-center items-center">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6">
-        <h2 className="text-2xl font-bold mb-6">Add Equipment</h2>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
+        <h2 className="text-2xl font-bold mb-6">{isEditMode ? "Edit Equipment" : "Add Equipment"}</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label>Name *</label>
             <input
-              className="w-full border rounded p-2"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -95,7 +95,7 @@ function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
             <label>Type</label>
 
             <select
-              className="w-full border rounded p-2"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               name="type"
               value={formData.type}
               onChange={handleChange}
@@ -133,7 +133,7 @@ function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
             <label>Location</label>
 
             <input
-              className="w-full border rounded p-2"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               name="location"
               value={formData.location}
               onChange={handleChange}
@@ -144,7 +144,7 @@ function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
             <label>Serial Number</label>
 
             <input
-              className="w-full border rounded p-2"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               name="serial_number"
               value={formData.serial_number}
               onChange={handleChange}
@@ -156,7 +156,7 @@ function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
 
             <input
               type="date"
-              className="w-full border rounded p-2"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               name="installed_date"
               value={formData.installed_date}
               onChange={handleChange}
@@ -168,7 +168,7 @@ function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
 
             <textarea
               row={3}
-              className="w-full border rounded p-2"
+              className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
               name="description"
               value={formData.description}
               onChange={handleChange}
@@ -179,16 +179,16 @@ function AddEquipmentModal({ isOpen, onClose, onSave, editItem, isEditMode }) {
             <button
               type="button"
               onClick={onClose}
-              className="border px-4 py-2 rounded"
+              className="border border-gray-300 px-4 py-2 rounded-lg hover:bg-gray-100 cursor-pointer transition"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg cursor-pointer transition"
             >
-              Save Equipment
+              {isEditMode ? "Update Equipment" : "Save Equipment"}
             </button>
           </div>
         </form>

@@ -3,11 +3,12 @@ import StatsCards from "../components/Dashboard/StatsCards";
 import EquipmentFilters from "../components/Search/EquipmentFilters";
 import EquipmentTable from "../components/Equipment/EquipmentTable";
 import AddEquipmentModal from "../components/Equipment/AddEquipmentModal";
-import { 
-    getEquipment, 
-    createEquipment, 
-    updateEquipment, 
-    deleteEquipment } from "../services/equipmentApi";
+import {
+  getEquipment,
+  createEquipment,
+  updateEquipment,
+  deleteEquipment,
+} from "../services/equipmentApi";
 
 import toast from "react-hot-toast";
 
@@ -69,7 +70,7 @@ function Dashboard() {
     try {
       if (isEditMode) {
         await updateEquipment(data.id, data);
-         toast.success("Equipment updated successfully!");
+        toast.success("Equipment updated successfully!");
       } else {
         await createEquipment(data);
         toast.success("Equipment added successfully!");
@@ -79,7 +80,11 @@ function Dashboard() {
       setEditItem(null);
       setIsEditMode(false);
 
-      fetchEquipment(filters);
+      // Refresh table
+      await fetchEquipment(filters);
+
+      //Refresh stats
+      setRefreshKey((prev) => prev + 1);
     } catch (error) {
       console.error("Save failed", error);
       toast.error("Failed to save equipment");
@@ -87,49 +92,68 @@ function Dashboard() {
   };
   const handleDelete = async (id) => {
     try {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete this equipment?"
-        );
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this equipment?",
+      );
 
-        if (!confirmDelete) return;
-        await deleteEquipment(id);
+      if (!confirmDelete) return;
+      await deleteEquipment(id);
 
-        toast.success("Equipment deleted successfully!");
+      toast.success("Equipment deleted successfully!");
 
-        setRefreshKey(prev => prev + 1);
-        fetchEquipment(filters);
+      // Refresh table
+      await fetchEquipment(filters);
+
+      // Refresh stats
+      setRefreshKey((prev) => prev + 1);
     } catch (error) {
-        console.error("Delete failed", error);
-        toast.error("Failed to delete equipment");
+      console.error("Delete failed", error);
+      toast.error("Failed to delete equipment");
     }
   };
 
-  
   return (
-    <div>
-      <h2 className="text-3xl font-bold text-gray-800 mb-2">Dashboard</h2>
-      <p className="text-gray-600">
-        Welcome to the SmartLab Equipment Manager.
-      </p>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
+            Dashboard
+          </h2>
 
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="bg-blue-600 text-white px-4 py-2 rounded mt-4"
-      >
-        + Add Equipment
-      </button>
+          <p className="text-gray-600 mt-1">
+            Welcome to the SmartLab Equipment Manager.
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            setEditItem(null);
+            setIsEditMode(false);
+            setIsModalOpen(true);
+          }}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg transition cursor-pointer"
+        >
+          + Add Equipment
+        </button>
+      </div>
+
+      {/* Stats */}
       <StatsCards refreshKey={refreshKey} />
 
+      {/* Filters */}
       <EquipmentFilters filters={filters} onFilterChange={handleFilterChange} />
+
+      {/* Table */}
       <EquipmentTable
         equipment={equipment}
         loading={loading}
         error={error}
-        refreshKey={refreshKey}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
 
+      {/* Modal */}
       <AddEquipmentModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

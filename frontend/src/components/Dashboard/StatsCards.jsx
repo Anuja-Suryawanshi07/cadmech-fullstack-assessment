@@ -56,12 +56,12 @@ function StatsCards({ refreshKey }) {
     ];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
 
             {cards.map((card) =>(
                 <div 
                     key={card.title}
-                    className="bg-white rounded-lg shadow p-6"
+                    className="bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition"
                 >
                     <h3 className="text-gray-600 text-sm">
                         {card.title}
